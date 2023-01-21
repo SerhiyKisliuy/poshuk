@@ -1,6 +1,7 @@
-from my_modules.selection_files import Test
+import search_xls.my_modules.selection_files as selections
 
-test = Test()
+
+test = selections.Test()
 
 print("Hi goes")
 
