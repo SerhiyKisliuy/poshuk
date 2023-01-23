@@ -1,7 +1,10 @@
-import search_xls.my_modules.selection_files as selections
+from my_modules.start_app import start
 
-test = selections.Test()
 
-print("Hi goes")
+if __name__ == "__main__":
+    start()
 
-print("vvv")
+
+
+
+
