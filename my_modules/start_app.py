@@ -9,6 +9,7 @@ class Ui_D(Ui_Dialog):  # Діалогове вікно для вибору фа
 
 
 class Ui_MW(Ui_MainWindow):
+    visibleDialogWindow = False
 
     def setupUi(self, mainWindow: object) -> object:
         print("ClassUi_MW_setapUi")
@@ -16,12 +17,16 @@ class Ui_MW(Ui_MainWindow):
         self.pushButton.clicked.connect(self.start_Ui_Dialog)
 
     def start_Ui_Dialog(self):  #Создає діалогове вікно і виводить його.
+        if not self.visibleDialogWindow:  #Умова для запобігання відкриття декількох діалогових вікон
+            self.visibleDialogWindow = True
+            dialog = QtWidgets.QDialog()
+            uid = Ui_D()
+            uid.setupUi(dialog)
+            dialog.show()
+            dialog.exec()
 
-        dialog = QtWidgets.QDialog()
-        uid = Ui_D()
-        uid.setupUi(dialog)
-        dialog.show()
-        dialog.exec()
+        else:
+            print("Error Діалогове вікно вже існує")
 
 
 def start():
