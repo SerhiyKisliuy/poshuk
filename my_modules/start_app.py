@@ -1,7 +1,7 @@
 from my_modules.poshuk import Ui_MainWindow
 from my_modules.select_file import Ui_Dialog
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWidgets import *
 
 class Ui_D(Ui_Dialog):  # Діалогове вікно для вибору файлів (Успадкування та перевизначення).
     def setupUi(self, dialog):
@@ -14,19 +14,17 @@ class Ui_MW(Ui_MainWindow):
     def setupUi(self, mainWindow: object) -> object:
         print("ClassUi_MW_setapUi")
         super().setupUi(mainWindow)
-        self.pushButton.clicked.connect(self.start_Ui_Dialog)
+        self.pushButton.clicked.connect(self.getDirectory)
 
-    def start_Ui_Dialog(self):  #Создає діалогове вікно і виводить його.
-        if not self.visibleDialogWindow:  #Умова для запобігання відкриття декількох діалогових вікон
-            self.visibleDialogWindow = True
-            dialog = QtWidgets.QDialog()
-            uid = Ui_D()
-            uid.setupUi(dialog)
-            dialog.show()
-            dialog.exec()
+    def getDirectory(self):  # <-----
+        dirlist = QFileDialog.getExistingDirectory()
+        print(dirlist)
 
-        else:
-            print("Error Діалогове вікно вже існує")
+    def getFileName(self):
+        filename = QFileDialog.getOpenFileName()[0]
+
+        print(filename)
+
 
 
 def start():
