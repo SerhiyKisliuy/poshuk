@@ -11,10 +11,8 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-
-
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow: object) -> object:
+    def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.resize(820, 600)
@@ -56,12 +54,12 @@ class Ui_MainWindow(object):
         self.groupBox.setMinimumSize(QtCore.QSize(450, 100))
         self.groupBox.setObjectName("groupBox")
         self.widget = QtWidgets.QWidget(self.groupBox)
-        self.widget.setGeometry(QtCore.QRect(10, 20, 436, 75))
+        self.widget.setGeometry(QtCore.QRect(0, 10, 446, 85))
         self.widget.setObjectName("widget")
-        self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.widget)
-        self.horizontalLayout_4.setContentsMargins(5, 5, 5, 5)
-        self.horizontalLayout_4.setSpacing(5)
-        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.widget)
+        self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
+        self.horizontalLayout.setSpacing(5)
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setContentsMargins(5, 5, 5, 5)
         self.verticalLayout_5.setSpacing(15)
@@ -73,6 +71,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.radioButton.sizePolicy().hasHeightForWidth())
         self.radioButton.setSizePolicy(sizePolicy)
         self.radioButton.setMinimumSize(QtCore.QSize(300, 20))
+        self.radioButton.setChecked(True)
         self.radioButton.setObjectName("radioButton")
         self.verticalLayout_5.addWidget(self.radioButton)
         self.radioButton_2 = QtWidgets.QRadioButton(self.widget)
@@ -84,7 +83,11 @@ class Ui_MainWindow(object):
         self.radioButton_2.setMinimumSize(QtCore.QSize(300, 20))
         self.radioButton_2.setObjectName("radioButton_2")
         self.verticalLayout_5.addWidget(self.radioButton_2)
-        self.horizontalLayout_4.addLayout(self.verticalLayout_5)
+        self.horizontalLayout.addLayout(self.verticalLayout_5)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setContentsMargins(5, 5, 5, 5)
+        self.verticalLayout_2.setSpacing(5)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.pushButton = QtWidgets.QPushButton(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -93,7 +96,12 @@ class Ui_MainWindow(object):
         self.pushButton.setSizePolicy(sizePolicy)
         self.pushButton.setMinimumSize(QtCore.QSize(110, 30))
         self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_4.addWidget(self.pushButton)
+        self.verticalLayout_2.addWidget(self.pushButton)
+        self.pushButton_3 = QtWidgets.QPushButton(self.widget)
+        self.pushButton_3.setMinimumSize(QtCore.QSize(110, 30))
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.verticalLayout_2.addWidget(self.pushButton_3)
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout.addWidget(self.groupBox)
         self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -103,14 +111,14 @@ class Ui_MainWindow(object):
         self.groupBox_2.setSizePolicy(sizePolicy)
         self.groupBox_2.setMinimumSize(QtCore.QSize(450, 70))
         self.groupBox_2.setObjectName("groupBox_2")
-        self.widget1 = QtWidgets.QWidget(self.groupBox_2)
-        self.widget1.setGeometry(QtCore.QRect(15, 25, 430, 40))
-        self.widget1.setObjectName("widget1")
-        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.widget1)
+        self.layoutWidget = QtWidgets.QWidget(self.groupBox_2)
+        self.layoutWidget.setGeometry(QtCore.QRect(15, 25, 430, 40))
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_5.setContentsMargins(5, 5, 5, 5)
         self.horizontalLayout_5.setSpacing(10)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.lineEdit = QtWidgets.QLineEdit(self.widget1)
+        self.lineEdit = QtWidgets.QLineEdit(self.layoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -119,7 +127,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setMinimumSize(QtCore.QSize(300, 30))
         self.lineEdit.setObjectName("lineEdit")
         self.horizontalLayout_5.addWidget(self.lineEdit)
-        self.pushButton_2 = QtWidgets.QPushButton(self.widget1)
+        self.pushButton_2 = QtWidgets.QPushButton(self.layoutWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -138,6 +146,9 @@ class Ui_MainWindow(object):
         self.groupBox_3.setSizePolicy(sizePolicy)
         self.groupBox_3.setMinimumSize(QtCore.QSize(300, 180))
         self.groupBox_3.setObjectName("groupBox_3")
+        self.listWidget = QtWidgets.QListWidget(self.groupBox_3)
+        self.listWidget.setGeometry(QtCore.QRect(10, 20, 291, 151))
+        self.listWidget.setObjectName("listWidget")
         self.horizontalLayout_3.addWidget(self.groupBox_3)
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
         self.tableView = QtWidgets.QTableView(self.centralwidget)
@@ -165,23 +176,22 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        print("SuperClassUi_setupUi")
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Пошук"))
         self.groupBox.setTitle(_translate("MainWindow", "Налаштунки"))
         self.radioButton.setText(_translate("MainWindow", "Шукати в одному файлі."))
-        self.radioButton_2.setText(_translate("MainWindow", "Шукати по всім файлам у папці. "))
-        self.pushButton.setText(_translate("MainWindow", "Вибрати файл"))
+        self.radioButton_2.setText(_translate("MainWindow", "Шукати по всім файлам. "))
+        self.pushButton.setText(_translate("MainWindow", "Додати файли"))
+        self.pushButton_3.setText(_translate("MainWindow", "Очистити список"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Пошук"))
         self.pushButton_2.setText(_translate("MainWindow", "Шукати"))
         self.groupBox_3.setTitle(_translate("MainWindow", "Вибрані файли"))
 
-        print("SuperClassUi_retranslateUi")
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()

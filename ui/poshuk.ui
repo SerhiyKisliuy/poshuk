@@ -125,13 +125,13 @@
             <widget class="QWidget" name="">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>20</y>
-               <width>436</width>
-               <height>75</height>
+               <x>0</x>
+               <y>10</y>
+               <width>446</width>
+               <height>85</height>
               </rect>
              </property>
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <layout class="QHBoxLayout" name="horizontalLayout">
               <property name="spacing">
                <number>5</number>
               </property>
@@ -181,6 +181,9 @@
                   <property name="text">
                    <string>Шукати в одному файлі.</string>
                   </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
                  </widget>
                 </item>
                 <item>
@@ -198,30 +201,62 @@
                    </size>
                   </property>
                   <property name="text">
-                   <string>Шукати по всім файлам у папці. </string>
+                   <string>Шукати по всім файлам. </string>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <property name="spacing">
+                 <number>5</number>
                 </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>110</width>
-                  <height>30</height>
-                 </size>
+                <property name="leftMargin">
+                 <number>5</number>
                 </property>
-                <property name="text">
-                 <string>Вибрати файл</string>
+                <property name="topMargin">
+                 <number>5</number>
                 </property>
-               </widget>
+                <property name="rightMargin">
+                 <number>5</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>5</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="pushButton">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>110</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Додати файли</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton_3">
+                  <property name="minimumSize">
+                   <size>
+                    <width>110</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Очистити список</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </widget>
@@ -244,7 +279,7 @@
             <property name="title">
              <string>Пошук</string>
             </property>
-            <widget class="QWidget" name="">
+            <widget class="QWidget" name="layoutWidget">
              <property name="geometry">
               <rect>
                <x>15</x>
@@ -327,6 +362,16 @@
           <property name="title">
            <string>Вибрані файли</string>
           </property>
+          <widget class="QListWidget" name="listWidget">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>291</width>
+             <height>151</height>
+            </rect>
+           </property>
+          </widget>
          </widget>
         </item>
        </layout>
