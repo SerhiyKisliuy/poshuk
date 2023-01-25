@@ -11,7 +11,7 @@ class Ui_MW(Ui_MainWindow, QMainWindow):
         self.pushButton.clicked.connect(self.getFileNames)
 
     def getFileNames(self):
-        filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", "/users", "Excel files (*.xlsx)")[0]
+        filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", "/users", "Excel files (*.xlsx) ;;All files(*.*) ")[0]
 
         print(filenames)
 
@@ -27,11 +27,4 @@ def start():
 
 
 if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    mainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MW()
-    ui.setupUi(mainWindow)
-    mainWindow.show()
-    sys.exit(app.exec_())
+    start()
