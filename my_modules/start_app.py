@@ -3,12 +3,30 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QSettings
 from settings import Settings
+import sys
+from PyQt5.QtWidgets import QWidget, QDesktopWidget, QApplication
 
-class Ui_MW(Ui_MainWindow, QMainWindow):
-    def setupUi(self, mainWindow: object) -> object:
+
+class Ui_MW(Ui_MainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+
+    def closeEvent(self, event):
+
+        reply = QtWidgets.QMessageBox.information(self, 'Выход', 'Вы точно хотите выйти?',
+                                                  QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                                                  QtWidgets.QMessageBox.No)
+        if reply == QtWidgets.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+    def setupUi(self, MainWindow: object) -> object:
         print("ClassUi_MW_setapUi")
-        super().setupUi(mainWindow)
+        super().setupUi(MainWindow)
         self.pushButton.clicked.connect(self.getFileNames)
+        
         self.sett = Settings()
         self.settings = self.sett.getSettings()
         self.radioButton.setChecked(self.settings['radioButtonCheck'])
@@ -20,19 +38,6 @@ class Ui_MW(Ui_MainWindow, QMainWindow):
         filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", "/users", "Excel files (*.xlsx) ;;All files(*.*) ")[0]
 
         print(filenames)
-
-    def closeEvent(self, event):
-
-        reply = QMessageBox.question(self, 'Message',
-            "Are you sure to quit?", QMessageBox.Yes |
-            QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
-
-
 
 
 def start():
