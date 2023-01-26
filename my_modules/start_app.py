@@ -7,21 +7,13 @@ import sys
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QApplication
 
 
-class Ui_MW(Ui_MainWindow):
+class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
+        self.setupUi(self)
 
 
-    def closeEvent(self, event):
-
-        reply = QtWidgets.QMessageBox.information(self, 'Выход', 'Вы точно хотите выйти?',
-                                                  QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
-                                                  QtWidgets.QMessageBox.No)
-        if reply == QtWidgets.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
     def setupUi(self, MainWindow: object) -> object:
         print("ClassUi_MW_setapUi")
         super().setupUi(MainWindow)
@@ -37,16 +29,27 @@ class Ui_MW(Ui_MainWindow):
     def getFileNames(self):
         filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", "/users", "Excel files (*.xlsx) ;;All files(*.*) ")[0]
 
+        for i in filenames:
+            self.item = QtWidgets.QListWidgetItem()
+            self.item.setText(i)
+            self.listWidget.addItem(self.item)
+            print(self.item)
         print(filenames)
 
+    def closeEvent(self, event):
+        self.settings["radioButtonCheck"] = self.radioButton.isChecked()
+        self.settings["radioButton_2Check"] = self.radioButton_2.isChecked()
+
+        self.save = Settings()
+        self.save.setSettings(self.settings)
 
 def start():
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    mainWindow = QtWidgets.QMainWindow()
+    #mainWindow = QtWidgets.QMainWindow()
     ui = Ui_MW()
-    ui.setupUi(mainWindow)
-    mainWindow.show()
+    #ui.setupUi(mainWindow)
+    ui.show()
     sys.exit(app.exec_())
 
 
