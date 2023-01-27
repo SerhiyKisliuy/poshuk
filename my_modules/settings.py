@@ -7,17 +7,30 @@ class Settings:
         savesettings = QSettings("setting.conf")
         savesettings.setValue("set", settings)
         savesettings.sync()
-        print("setSettings")
 
     def getSettings(self):
-        getsettings = QSettings("setting.conf")
-        settings = getsettings.value("set")
-        if settings:
-            print("OkSettings")
-            return settings
-        else:
-            settings = {}
+        self.getsettings = QSettings("setting.conf")
+        self.settings = self.getsettings.value("set")
+        self.settings = self.testSettings(self.settings)
+        return self.settings
+
+    def testSettings(self, settings):
+
+        if not settings:
+            settings = []
+        try:
+            settings['radioButtonCheck']
+        except Exception:
             settings['radioButtonCheck'] = True
+
+        try:
+            settings['radioButton_2Check']
+        except Exception:
             settings['radioButton_2Check'] = False
-            print("NoSettings")
-            return settings
+
+        try:
+            settings['list_item']
+        except Exception:
+            settings['list_item'] = []
+
+        return settings
