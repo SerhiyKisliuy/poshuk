@@ -69,9 +69,10 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         for i in self.filenames:
 
             if i not in self.list_item:
-                self.item = QtWidgets.QListWidgetItem()
-                self.item.setText(i)
-                self.listWidget.addItem(self.item)
+                if self.testTypeFile(i):
+                    self.item = QtWidgets.QListWidgetItem()
+                    self.item.setText(i)
+                    self.listWidget.addItem(self.item)
 
         try:
             self.filenames[-1]
@@ -86,6 +87,15 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
             self.item = self.listWidget.item(0)
             self.listWidget.setCurrentItem(self.item)  # Робимо елемент вибраним
 
+
+    def testTypeFile (self, path_file):
+
+        path_dir, name_file = os.path.split(path_file)
+        filename, type_file = os.path.splitext(name_file)
+        if type_file == '.xlsx':
+            return True
+        else:
+            return False
 
     def closeEvent(self, event):
 
