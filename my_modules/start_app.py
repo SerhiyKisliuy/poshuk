@@ -17,17 +17,17 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def __init__(self):
         super().__init__()
+        self.list_item = None
         self.setupUi(self)
-
 
     def setupUi(self, MainWindow: object) -> object:
 
         super().setupUi(MainWindow)
         self.pushButton.clicked.connect(self.getFileNames)
-        self.pushButton_3.clicked.connect(self.listWidget.clear)
+        self.pushButton_3.clicked.connect(self.clearListWidget)
         self.pushButton_2.clicked.connect(self.poshuk)
         self.listWidget.installEventFilter(self)
-        #self.listWidget.setSelectionMode(QListWidget.MultiSelection)
+        # self.listWidget.setSelectionMode(QListWidget.MultiSelection)
 
         self.sett = Settings()
         self.settings = self.sett.getSettings()  # Отримуємо налаштунки програми
@@ -36,16 +36,17 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.radioButton.setChecked(self.settings['radioButtonCheck'])
         self.radioButton_2.setChecked(self.settings['radioButton_2Check'])
         self.list_item = self.settings["list_item"]
-        self.listWidget.addItems(self.settings["list_item"])
+        self.listWidget.addItems(self.list_item)
         self.pathDir = self.settings["path_dir"]
 
-        item = self.listWidget.item(0)  #  Отримуємо перший єлемент списку
-        self.listWidget.setCurrentItem(item)  #  Робимо елемент вибраним
+        item = self.listWidget.item(0)  # Отримуємо перший єлемент списку
+        self.listWidget.setCurrentItem(item)  # Робимо елемент вибраним
 
+    def clearListWidget(self):
+        self.listWidget.clear()
 
     def poshuk(self):
         pass
-
 
     def eventFilter(self, obj, event):
         if obj is self.listWidget and event.type() == QtCore.QEvent.ContextMenu:
@@ -54,34 +55,40 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
                 menu = Qt.QMenu()
                 action = menu.addAction("Видалити")
 
-                positionCursor = PyQt5.QtGui.QCursor.pos()  #Отримуємо позицію курсора
+                positionCursor = PyQt5.QtGui.QCursor.pos()  # Отримуємо позицію курсора
                 result = menu.exec_(positionCursor)
 
                 if action == result:
                     self.listWidget.takeItem(self.listWidget.row(self.item))
 
-
         return super().eventFilter(obj, event)
-
-
 
     def getFileNames(self):
         self.pathDir = self.settings['path_dir']
-        filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", self.pathDir, "Excel files (*.xlsx) ;;All files(*.*) ")[0]
+        self.filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", self.pathDir,
+                                                      "Excel files (*.xlsx) ;;All files(*.*) ")[0]
 
-        for i in filenames:
-            self.item = QtWidgets.QListWidgetItem()
-            self.item.setText(i)
-            self.listWidget.addItem(self.item)
+        self.list_item = [self.listWidget.item(row).text() for row in range(self.listWidget.count())]
 
-        self.del_duble_element()
-        self.pathFile = filenames[-1] #Отримуємо останній та повний путь файлу
-        #Розділяємо путь до файлу на путь до папки та ім'я файлу.
-        self.pathDir, self.nameFile = os.path.split(self.pathFile)
-        self.settings['path_dir'] = self.pathDir  #Записуємо у змінну налаштунків
-        self.listWidget.setCurrentItem(self.item)
+        for i in self.filenames:
 
-    def del_duble_element(self):
+            if i not in self.list_item:
+                self.item = QtWidgets.QListWidgetItem()
+                self.item.setText(i)
+                self.listWidget.addItem(self.item)
+
+        try:
+            self.filenames[-1]
+            self.pathFile = self.filenames[-1]  # Отримуємо останній та повний путь файлу
+            # Розділяємо путь до файлу на путь до папки та ім'я файлу.
+            self.pathDir, self.nameFile = os.path.split(self.pathFile)
+            self.settings['path_dir'] = self.pathDir  # Записуємо у змінну налаштунків
+
+            self.listWidget.setCurrentItem(self.item)  # Робимо елемент вибраним
+
+        except Exception:
+            self.item = self.listWidget.item(0)
+            self.listWidget.setCurrentItem(self.item)  # Робимо елемент вибраним
 
 
     def closeEvent(self, event):
@@ -97,13 +104,12 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.save.setSettings(self.settings)
 
 
-
 def start():
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    #mainWindow = QtWidgets.QMainWindow()
+    # mainWindow = QtWidgets.QMainWindow()
     ui = Ui_MW()
-    #ui.setupUi(mainWindow)
+    # ui.setupUi(mainWindow)
     ui.show()
     sys.exit(app.exec_())
 
