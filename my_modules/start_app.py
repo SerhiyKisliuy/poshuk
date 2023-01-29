@@ -6,6 +6,9 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from settings import Settings
 from PyQt5 import Qt
+import os
+from pathlib import Path
+
 import sys
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QApplication
 
@@ -21,7 +24,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         super().setupUi(MainWindow)
         self.pushButton.clicked.connect(self.getFileNames)
-        self.pushButton_3.clicked.connect(self.clearListWidget)
+        self.pushButton_3.clicked.connect(self.listWidget.clear)
         self.pushButton_2.clicked.connect(self.poshuk)
         self.listWidget.installEventFilter(self)
         #self.listWidget.setSelectionMode(QListWidget.MultiSelection)
@@ -30,24 +33,24 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.settings = self.sett.getSettings()  # Отримуємо налаштунки програми
 
         # Застосовуємо налаштунки програми
-        if self.settings['radioButtonCheck']:
-            self.radioButton.setChecked(self.settings['radioButtonCheck'])
-        if self.settings['radioButton_2Check']:
-            self.radioButton_2.setChecked(self.settings['radioButton_2Check'])
-        if self.settings["list_item"]:
-            self.listWidget.addItems(self.settings["list_item"])
+        self.radioButton.setChecked(self.settings['radioButtonCheck'])
+        self.radioButton_2.setChecked(self.settings['radioButton_2Check'])
+        self.list_item = self.settings["list_item"]
+        self.listWidget.addItems(self.settings["list_item"])
+        self.pathDir = self.settings["path_dir"]
+
+        item = self.listWidget.item(0)  #  Отримуємо перший єлемент списку
+        self.listWidget.setCurrentItem(item)  #  Робимо елемент вибраним
+
 
     def poshuk(self):
         pass
-    def clearListWidget(self):
-        self.listWidget.clear()
+
 
     def eventFilter(self, obj, event):
         if obj is self.listWidget and event.type() == QtCore.QEvent.ContextMenu:
             self.item = self.listWidget.currentItem()
             if self.item:
-                #text = self.item.text()
-                #print(f'clicked item text: {text}')
                 menu = Qt.QMenu()
                 action = menu.addAction("Видалити")
 
@@ -60,18 +63,25 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         return super().eventFilter(obj, event)
 
-    def contextMenuEvent(self, event):
 
-        pass
 
     def getFileNames(self):
-        filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", "/users", "Excel files (*.xlsx) ;;All files(*.*) ")[0]
+        self.pathDir = self.settings['path_dir']
+        filenames = QFileDialog.getOpenFileNames(self, "Вибір файлів для пошуку", self.pathDir, "Excel files (*.xlsx) ;;All files(*.*) ")[0]
 
         for i in filenames:
             self.item = QtWidgets.QListWidgetItem()
             self.item.setText(i)
             self.listWidget.addItem(self.item)
 
+        self.del_duble_element()
+        self.pathFile = filenames[-1] #Отримуємо останній та повний путь файлу
+        #Розділяємо путь до файлу на путь до папки та ім'я файлу.
+        self.pathDir, self.nameFile = os.path.split(self.pathFile)
+        self.settings['path_dir'] = self.pathDir  #Записуємо у змінну налаштунків
+        self.listWidget.setCurrentItem(self.item)
+
+    def del_duble_element(self):
 
 
     def closeEvent(self, event):
@@ -81,6 +91,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.settings["radioButtonCheck"] = self.radioButton.isChecked()
         self.settings["radioButton_2Check"] = self.radioButton_2.isChecked()
         self.settings["list_item"] = self.list_item
+        self.settings["path_dir"] = self.pathDir
 
         self.save = Settings()
         self.save.setSettings(self.settings)

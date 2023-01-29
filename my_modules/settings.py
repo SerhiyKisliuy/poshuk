@@ -33,4 +33,9 @@ class Settings:
         except Exception:
             settings['list_item'] = []
 
+        try:
+            settings['path_dir']
+        except Exception:
+            settings['path_dir'] = '/Users'
+
         return settings
