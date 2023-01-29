@@ -7,10 +7,6 @@ from PyQt5 import QtCore
 from settings import Settings
 from PyQt5 import Qt
 import os
-from pathlib import Path
-
-import sys
-from PyQt5.QtWidgets import QWidget, QDesktopWidget, QApplication
 
 
 class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
