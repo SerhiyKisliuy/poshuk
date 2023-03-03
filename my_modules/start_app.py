@@ -1,10 +1,11 @@
 import PyQt5.QtGui
 
 from my_modules.poshuk import Ui_MainWindow
+import my_modules.searsh_in_xls
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
-from settings import Settings
+from my_modules.settings import Settings
 from PyQt5 import Qt
 import os
 
@@ -42,6 +43,11 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget.clear()
 
     def poshuk(self):
+        print(self.list_item[0])
+        print(self.lineEdit.text())
+
+        tableresult = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
+        print(tableresult)
         pass
 
     def eventFilter(self, obj, event):
