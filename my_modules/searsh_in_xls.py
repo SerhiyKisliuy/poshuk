@@ -27,7 +27,7 @@ def search(filename, entry):
         head = []
         le = len(ws[1])  #додаєм стовбців для імен файла та листа
         for s in range(le):  #розмір рядка (кількість слів)
-            head.append(s)
+            head.append(str(s))
 
         head = ['Лист'] + head
         head = ['Файл'] + head
@@ -54,10 +54,7 @@ def search(filename, entry):
                 if r:
                     result.append(r)  # Формуємо список строк
 
-        vivodresult(result, head)  # Виводимо результат
-    return result
+        return head, result
 
 
-def vivodresult(result, head):
-    print(head)
-    print(result)
+

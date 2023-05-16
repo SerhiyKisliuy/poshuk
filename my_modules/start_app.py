@@ -2,6 +2,7 @@ import PyQt5.QtGui
 
 from my_modules.poshuk import Ui_MainWindow
 import my_modules.searsh_in_xls
+from my_modules.tablemodel import TableModel
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -25,6 +26,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.poshuk)
         self.listWidget.installEventFilter(self)
         # self.listWidget.setSelectionMode(QListWidget.MultiSelection)
+        #self.tableView(self)
 
         self.sett = Settings()
         self.settings = self.sett.getSettings()  # Отримуємо налаштунки програми
@@ -47,7 +49,12 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         print(self.lineEdit.text())
 
         tableresult = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
-        print(tableresult)
+
+        self.model = TableModel(tableresult)  #Створюємо обєкт - модел таблиці.
+        self.model.setHader(tableresult[0])
+        self.model.setItems(tableresult[1])
+        self.tableView.setModel(self.model)  #Передаємо модель таблиці у вієв.
+
         pass
 
     def eventFilter(self, obj, event):
