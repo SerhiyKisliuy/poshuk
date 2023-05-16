@@ -51,8 +51,8 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         tableresult = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
 
         self.model = TableModel(tableresult)  #Створюємо обєкт - модел таблиці.
-        self.model.setHader(tableresult[0])
-        self.model.setItems(tableresult[1])
+        self.model.setHader(tableresult[0])  #
+        self.model.setItems(tableresult[1])  #
         self.tableView.setModel(self.model)  #Передаємо модель таблиці у вієв.
 
         pass
