@@ -13,22 +13,23 @@ def strresult(m):
 def search(filename, entry):
 
     wb = load_workbook(filename, data_only=True)  #завантаження книги
-    print(wb.sheetnames)
+    #print(wb.sheetnames)
+    result = []
+    head = []
 
-    for i in range(len(wb.sheetnames)):  #перебір по таблицям (ws - Листи, wb - вся книга)
-        print(i)
-        wb.active = i
+    for shn in range(len(wb.sheetnames)):  #перебір по таблицям (ws - Листи, wb - вся книга)
+        #print(shn)
+        wb.active = shn
         ws = wb.active
-        print(ws[2])
+        #print(ws[2])
+        # print('____  ' + wb.sheetnames[ws] + '  ____')  # Друкуємо назву листа
         dat = entry
-        result = []
 
-        #print('____  ' + wb.sheetnames[ws] + '  ____')  # Друкуємо назву листа
-        head = []
-        le = len(ws[1])  #додаєм стовбців для імен файла та листа
+        le = len(ws[1])
         for s in range(le):  #розмір рядка (кількість слів)
-            head.append(str(s))
+            head.append(str(s)) #Заповнюємо шапку номерами стовбців
 
+        # додаєм стовбців для імен файла та листа (в початок)
         head = ['Лист'] + head
         head = ['Файл'] + head
 
@@ -48,13 +49,13 @@ def search(filename, entry):
 
             if b:
                 r = strresult(i)  # Формуємо строку
-                lis = wb.sheetnames[0]
-                r = [lis] + r
-                r = [filename] + r
+                lis = wb.sheetnames[shn]
+                r = [lis] + r   #Додаэмо назву листа
+                r = [filename] + r  #Додаэмо назву файла
                 if r:
                     result.append(r)  # Формуємо список строк
 
-        return head, result
+    return head, result
 
 
 

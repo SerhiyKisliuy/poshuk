@@ -45,14 +45,25 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget.clear()
 
     def poshuk(self):
-        print(self.list_item[0])
-        print(self.lineEdit.text())
-
-        tableresult = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
-
-        self.model = TableModel(tableresult)  #Створюємо обєкт - модел таблиці.
-        self.model.setHader(tableresult[0])  #
-        self.model.setItems(tableresult[1])  #
+        print("list_item")
+        print(self.list_item)  #Список файлів
+        print("lineEdit")
+        print(self.lineEdit.text())  #Пошуковий запрос
+        tableresults = []
+        if self.radioButton.isChecked():
+            tableresults = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
+        if self.radioButton_2.isChecked():
+            for i in range(len(self.list_item)):
+                print(i)
+                tableresult = my_modules.searsh_in_xls.search(self.list_item[i], self.lineEdit.text())
+                for x in tableresult[1]:
+                    tableresults[1].append(x)
+                if len(tableresult[0]) > len(tableresults[0]):
+                    tableresults[0] = tableresult[0]
+        print(tableresults)
+        self.model = TableModel(tableresults)  #Створюємо обєкт - модел таблиці.
+        self.model.setHader(tableresults[0])  #
+        self.model.setItems(tableresults[1])  #
         self.tableView.setModel(self.model)  #Передаємо модель таблиці у вієв.
 
         pass
