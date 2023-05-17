@@ -7,9 +7,15 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
         self.__fileNames = []  # Масив шляхів до файлів ексел
         self.__requestSearch = ""  # Пощуковий запит
         self.__resultAll = []  # Загальний результат
+        self.__onFile = True  #Пошук лише в одному файлі
+        self.__header = []
+    def setOnFile(self, onFile: bool):
+        self.__onFile = onFile
 
     def setFileNames(self, fileNames):  # Отримує масив щляхів до файлів ексел
         self.__fileNames = fileNames
+        #print("setFileNames")
+        #print(self.__fileNames)
 
     def setRequestSearch(self, requestSearch):  # Отримує пошуковий запит
         self.__requestSearch = requestSearch
@@ -24,27 +30,29 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
                 res.append('-')  # Якщо немає значення в ячейці то створюємо відступ
         return res
 
-    def __searchInAllBook(self):
+    def __searchInAllBooks(self):
         result = []
         lengF = len(self.__fileNames)  # Кількість книг
         for i in range(lengF):  #
             fileName = self.__fileNames[i]  # Шлях до файлу ексел
-            work_book = load_workbook(fileName, data_only=True)  # завантаження книги
-            # print(fileName)
-            resultBook = self.__searchInOneBook(work_book, fileName)  # Передаємо книгу та шлях до файлу
-            result.append(resultBook)
+            print("__searchInAllBook")
+            print(fileName)
+            self.__searchInOneBook(fileName)  # Передаємо книгу та шлях до файлу
+
         #print("Result for all book")
         #print(result)
         #result = self.__resultAll
         #return result
 
-    def __searchInOneBook(self, book, fileName):  #Пошук в одній книзі
-        lengS = len(book.sheetnames)  #Кількість листів в книзі
+    def __searchInOneBook(self, fileName):  #Пошук в одній книзі
+
         result = []  #Массив для додавання результатів
+        work_book = load_workbook(fileName, data_only=True)  # завантаження книги
+        lengS = len(work_book.sheetnames)  #Кількість листів в книзі
         for i in range(lengS):  #
-            book.active = i
-            sheetName = book.sheetnames[i]  #Отримуємо ім'я листа
-            sheetBook = book.active  #Отримуємо активний лист (в теорії)
+            work_book.active = i
+            sheetName = work_book.sheetnames[i]  #Отримуємо ім'я листа
+            sheetBook = work_book.active  #Отримуємо активний лист (в теорії)
             resultSheet = self.__searchInOneSheet(sheetBook, sheetName, fileName)  #
             result.append(resultSheet)
         #print("Result for one book")
@@ -78,10 +86,35 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
         #print(result)
         return result
 
+    def __getHeader(self):
+        self.__header = []
+        for i in range(self.__maxLenRow):
+            self.__header.append(str(i))
+        self.__header = ["Лист"] + self.__header
+        self.__header = ["Файл"] + self.__header
+        #print(self.__header)
+
+
     def getTableDate(self):
-        if self.__fileNames:
-            self.__searchInAllBook()
-            result = self.__resultAll
-            return result
-        print("Not filesName")
-        return []
+        if self.__onFile:
+            if self.__fileNames:
+                self.__searchInOneBook(self.__fileNames)
+                #print("getTableDate OnFile")
+                #print(self.__resultAll)
+                self.__getHeader()
+                #print("getTableDate OnFile")
+                #print(self.__header)
+
+                return self.__resultAll, self.__header
+            else:
+                print("Not fileName")
+                return []
+        else:
+            if self.__fileNames:
+                self.__searchInAllBooks()
+                self.__getHeader()
+
+                return self.__resultAll, self.__header
+            else:
+                print("Not filesName")
+                return []

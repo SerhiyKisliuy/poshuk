@@ -16,12 +16,16 @@ class TableModel(QtCore.QAbstractTableModel):
     def setItems(self, items):
         self.beginResetModel()
         self.items = items
+        #print("setItem")
+        #print(self.items)
         self.endResetModel()
 
     #Отримує шапку
     def setHader(self, hader):
         self.beginResetModel()
         self.hader = hader
+        #print("setHeder")
+        #print(self.hader)
         self.endResetModel()
 
     #Вказує кількість рядків в таблиці
@@ -32,6 +36,7 @@ class TableModel(QtCore.QAbstractTableModel):
     #Вказує кількість колонок (стовбців таблиці)
     def columnCount(self, *args, **kwargs) -> int:
         # return super().columnCount(*args, **kwargs)  #Вертає кількість стовбців
+
         return len(self.hader)
 
     #Виводить данні в ячейки
@@ -47,6 +52,9 @@ class TableModel(QtCore.QAbstractTableModel):
     def headerData(self, section: int, orientation: QtCore.Qt.Orientation, role: QtCore.Qt.ItemDataRole):
         if role == QtCore.Qt.ItemDataRole.DisplayRole:
             if orientation == QtCore.Qt.Orientation.Horizontal:
-                return self.hader[section]
+                if self.hader:
+                    return self.hader[section]
+                else:
+                    return section
             if orientation == QtCore.Qt.Orientation.Vertical:
                 return section

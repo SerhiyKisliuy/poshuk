@@ -3,6 +3,7 @@ import PyQt5.QtGui
 from my_modules.poshuk import Ui_MainWindow
 import my_modules.searsh_in_xls
 from my_modules.tablemodel import TableModel
+from my_modules.search_xlsx import SearchInXLSX
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
@@ -26,7 +27,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushButton_2.clicked.connect(self.poshuk)
         self.listWidget.installEventFilter(self)
         # self.listWidget.setSelectionMode(QListWidget.MultiSelection)
-        #self.tableView(self)
+        # self.tableView(self)
 
         self.sett = Settings()
         self.settings = self.sett.getSettings()  # Отримуємо налаштунки програми
@@ -45,26 +46,33 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget.clear()
 
     def poshuk(self):
-        print("list_item")
-        print(self.list_item)  #Список файлів
-        print("lineEdit")
-        print(self.lineEdit.text())  #Пошуковий запрос
-        tableresults = []
+        # print("list_item")
+        # print(self.list_item)  #Список файлів
+        # print("lineEdit")
+        # print(self.lineEdit.text())  #Пошуковий запрос
+        tableData = []
         if self.radioButton.isChecked():
-            tableresults = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
+            searchXLSX = SearchInXLSX()
+            curreItem = self.listWidget.currentItem().text()
+
+            # print(curreItem)
+            searchXLSX.setFileNames(str(curreItem))
+            searchXLSX.setRequestSearch(self.lineEdit.text())
+            searchXLSX.setOnFile(True)
+            tableData = searchXLSX.getTableDate()
+            # tableresults = my_modules.searsh_in_xls.search(self.list_item[0], self.lineEdit.text())
         if self.radioButton_2.isChecked():
-            for i in range(len(self.list_item)):
-                print(i)
-                tableresult = my_modules.searsh_in_xls.search(self.list_item[i], self.lineEdit.text())
-                for x in tableresult[1]:
-                    tableresults[1].append(x)
-                if len(tableresult[0]) > len(tableresults[0]):
-                    tableresults[0] = tableresult[0]
-        print(tableresults)
-        self.model = TableModel(tableresults)  #Створюємо обєкт - модел таблиці.
-        self.model.setHader(tableresults[0])  #
-        self.model.setItems(tableresults[1])  #
-        self.tableView.setModel(self.model)  #Передаємо модель таблиці у вієв.
+            searchXLSX = SearchInXLSX()
+            searchXLSX.setFileNames(self.list_item)
+            searchXLSX.setRequestSearch(self.lineEdit.text())
+            searchXLSX.setOnFile(False)
+            tableData = searchXLSX.getTableDate()
+        # print("poshuk")
+        # print(tableData[1])
+        self.model = TableModel(tableData)  # Створюємо обєкт - модел таблиці.
+        self.model.setHader(tableData[1])  #
+        self.model.setItems(tableData[0])  #
+        self.tableView.setModel(self.model)  # Передаємо модель таблиці у вієв.
 
         pass
 
@@ -99,7 +107,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
                     self.listWidget.addItem(self.item)
 
         try:
-            self.filenames[-1]
+            #self.filenames[-1]
             self.pathFile = self.filenames[-1]  # Отримуємо останній та повний путь файлу
             # Розділяємо путь до файлу на путь до папки та ім'я файлу.
             self.pathDir, self.nameFile = os.path.split(self.pathFile)
@@ -111,8 +119,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
             self.item = self.listWidget.item(0)
             self.listWidget.setCurrentItem(self.item)  # Робимо елемент вибраним
 
-
-    def testTypeFile (self, path_file):
+    def testTypeFile(self, path_file):
 
         path_dir, name_file = os.path.split(path_file)
         filename, type_file = os.path.splitext(name_file)
