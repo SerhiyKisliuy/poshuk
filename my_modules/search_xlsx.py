@@ -66,6 +66,8 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
             lenRow = len(i)  #Кількість ячеєк в рядку
             if lenRow >> self.__maxLenRow:  #Кількісне порівняння
                 self.__maxLenRow = lenRow  #Запис максимального значення
+                print("__searchInOneSheet __maxLenRow = ")
+                print(self.__maxLenRow)
             for x in i:  # Перебір ячеєк в одному рядку
                 if x.value:
                     if self.__requestSearch.lower() in str(

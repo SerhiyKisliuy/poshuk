@@ -51,11 +51,13 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         # print("lineEdit")
         # print(self.lineEdit.text())  #Пошуковий запрос
         tableData = []
+        self.list_item = [self.listWidget.item(row).text() for row in range(self.listWidget.count())]  # +++
+
         if self.radioButton.isChecked():
             searchXLSX = SearchInXLSX()
             curreItem = self.listWidget.currentItem().text()
 
-            # print(curreItem)
+            print(curreItem)
             searchXLSX.setFileNames(str(curreItem))
             searchXLSX.setRequestSearch(self.lineEdit.text())
             searchXLSX.setOnFile(True)
