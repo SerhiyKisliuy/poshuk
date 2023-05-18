@@ -77,8 +77,6 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.model.setItems(dateTable[0])  #
         self.tableView.setModel(self.model)  # Передаємо модель таблиці у вієв.
 
-        pass
-
     def dataLengs(self, data):
         resultData = []
         maxLengsRow = 0
