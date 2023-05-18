@@ -1,5 +1,5 @@
 import PyQt5.QtGui
-
+import pyclip
 from my_modules.poshuk import Ui_MainWindow
 import my_modules.searsh_in_xls
 from my_modules.tablemodel import TableModel
@@ -111,12 +111,15 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
             if self.item:
                 menu = Qt.QMenu()
                 action = menu.addAction("Видалити")
+                action1 = menu.addAction("Копіювати шлях")
 
                 positionCursor = PyQt5.QtGui.QCursor.pos()  # Отримуємо позицію курсора
                 result = menu.exec_(positionCursor)
 
                 if action == result:
                     self.listWidget.takeItem(self.listWidget.row(self.item))
+                if action1 == result:
+                    pyclip.copy(self.listWidget.currentItem().text())
 
         return super().eventFilter(obj, event)
 
