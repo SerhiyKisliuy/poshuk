@@ -1,7 +1,7 @@
 import PyQt5.QtGui
 import pyclip
 from my_modules.poshuk import Ui_MainWindow
-import my_modules.searsh_in_xls
+
 from my_modules.tablemodel import TableModel
 from my_modules.search_xlsx import SearchInXLSX
 from PyQt5 import QtWidgets
@@ -87,22 +87,22 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
             le = len(row)
             if le > maxLengsRow:
                 maxLengsRow = le
-                print("maxLengsRow")
-                print(maxLengsRow)
+                #print("maxLengsRow")
+                #print(maxLengsRow)
         for i in data:
             row = i
             while (len(row)) < (maxLengsRow):
                 row.append("-")
             resultData.append(row)
-        print("dataLengs")
-        print(resultData)
+        #print("dataLengs")
+        #print(resultData)
 
         header = []
         for i in range(maxLengsRow - 2):
             header.append(str(i + 1))
         header = ["Лист"] + header
         header = ["Файл"] + header
-        print(header)
+        #print(header)
         return resultData, header
 
     def eventFilter(self, obj, event):
