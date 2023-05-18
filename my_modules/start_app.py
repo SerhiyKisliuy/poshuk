@@ -58,7 +58,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
             searchXLSX = SearchInXLSX()
             curreItem = self.listWidget.currentItem().text()
 
-            print(curreItem)
+            #print(curreItem)
             searchXLSX.setFileNames(str(curreItem))
             searchXLSX.setRequestSearch(self.lineEdit.text())
             searchXLSX.setOnFile(True)

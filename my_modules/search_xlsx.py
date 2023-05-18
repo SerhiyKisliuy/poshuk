@@ -1,5 +1,5 @@
 from openpyxl import load_workbook
-
+import os
 
 class SearchInXLSX:  # Клас для пошуку в декількох файлах ексел
     def __init__(self):
@@ -35,8 +35,8 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
         lengF = len(self.__fileNames)  # Кількість книг
         for i in range(lengF):  #
             fileName = self.__fileNames[i]  # Шлях до файлу ексел
-            print("__searchInAllBook")
-            print(fileName)
+            #print("__searchInAllBook")
+            #print(fileName)
             self.__searchInOneBook(fileName)  # Передаємо книгу та шлях до файлу
 
         #print("Result for all book")
@@ -61,13 +61,14 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
 
     def __searchInOneSheet(self, sheet, sheetName, fileName):
         result = []  # Масив рядків які відповідають запиту
+        filename = self.__nameFileSplit(fileName)  #Отримуэмо ымёя файлу замысть шляху
         for i in sheet:  # Перебір рядків в одному листі
             b = False  # Запис рядка в масив заборонено
             lenRow = len(i)  #Кількість ячеєк в рядку
             if lenRow > self.__maxLenRow:  #Кількісне порівняння
                 self.__maxLenRow = lenRow  #Запис максимального значення
-                print("__searchInOneSheet __maxLenRow = ")
-                print(self.__maxLenRow)
+                #print("__searchInOneSheet __maxLenRow = ")
+                #print(self.__maxLenRow)
             for x in i:  # Перебір ячеєк в одному рядку
                 if x.value:
                     if self.__requestSearch.lower() in str(
@@ -80,7 +81,7 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
                 r = self.__strresult(i)  # Формуємо рядок
 
                 r = [sheetName] + r  # Додаэмо назву листа
-                r = [fileName] + r  # Додаэмо назву файла
+                r = [filename[0]] + r  # Додаэмо назву файла
                 if r:
                     result.append(r)  # Записуємо рядок в масив
                     self.__resultAll.append(r)
@@ -89,7 +90,11 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
         return result
 
 
-
+    def __nameFileSplit(self, pathFile):  #Метод для отримання ім'я файлу замість шляху
+        path_dir, name_file = os.path.split(pathFile)  #Шлях каталогу та повне ім'я файлу
+        filename = os.path.splitext(name_file)  #Ім'я файлу та його тип
+        #print(filename)
+        return filename
 
     def getTableDate(self):
         if self.__onFile:
@@ -103,7 +108,7 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
 
                 return self.__resultAll
             else:
-                print("Not fileName")
+                #print("Not fileName")
                 return []
         else:
             if self.__fileNames:
@@ -112,5 +117,5 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
 
                 return self.__resultAll
             else:
-                print("Not filesName")
+                #print("Not filesName")
                 return []
