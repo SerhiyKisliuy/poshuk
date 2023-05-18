@@ -88,13 +88,7 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
         #print(result)
         return result
 
-    def __getHeader(self):
-        self.__header = []
-        for i in range(self.__maxLenRow):
-            self.__header.append(str(i))
-        self.__header = ["Лист"] + self.__header
-        self.__header = ["Файл"] + self.__header
-        #print(self.__header)
+
 
 
     def getTableDate(self):
@@ -103,20 +97,20 @@ class SearchInXLSX:  # Клас для пошуку в декількох фай
                 self.__searchInOneBook(self.__fileNames)
                 #print("getTableDate OnFile")
                 #print(self.__resultAll)
-                self.__getHeader()
+                #self.__getHeader()
                 #print("getTableDate OnFile")
                 #print(self.__header)
 
-                return self.__resultAll, self.__header
+                return self.__resultAll
             else:
                 print("Not fileName")
                 return []
         else:
             if self.__fileNames:
                 self.__searchInAllBooks()
-                self.__getHeader()
+                #self.__getHeader()
 
-                return self.__resultAll, self.__header
+                return self.__resultAll
             else:
                 print("Not filesName")
                 return []

@@ -71,12 +71,39 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
             tableData = searchXLSX.getTableDate()
         # print("poshuk")
         # print(tableData[1])
-        self.model = TableModel(tableData)  # Створюємо обєкт - модел таблиці.
-        self.model.setHader(tableData[1])  #
-        self.model.setItems(tableData[0])  #
+        dateTable = self.dataLengs(tableData)
+        self.model = TableModel(dateTable[0])  # Створюємо обєкт - модел таблиці.
+        self.model.setHader(dateTable[1])  #
+        self.model.setItems(dateTable[0])  #
         self.tableView.setModel(self.model)  # Передаємо модель таблиці у вієв.
 
         pass
+
+    def dataLengs(self, data):
+        resultData = []
+        maxLengsRow = 0
+        for i in data:
+            row = i
+            le = len(row)
+            if le > maxLengsRow:
+                maxLengsRow = le
+                print("maxLengsRow")
+                print(maxLengsRow)
+        for i in data:
+            row = i
+            while (len(row)) < (maxLengsRow):
+                row.append("-")
+            resultData.append(row)
+        print("dataLengs")
+        print(resultData)
+
+        header = []
+        for i in range(maxLengsRow - 2):
+            header.append(str(i + 1))
+        header = ["Лист"] + header
+        header = ["Файл"] + header
+        print(header)
+        return resultData, header
 
     def eventFilter(self, obj, event):
         if obj is self.listWidget and event.type() == QtCore.QEvent.ContextMenu:
