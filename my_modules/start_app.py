@@ -24,7 +24,8 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         super().setupUi(MainWindow)
         self.pushButton.clicked.connect(self.getFileNames)
         self.pushButton_3.clicked.connect(self.clearListWidget)
-        self.pushButton_2.clicked.connect(self.poshuk)
+        self.pushButton_2.clicked.connect(self.poshuk)  #Починає пошук при натисканні кнопки
+        self.lineEdit.returnPressed.connect(self.poshuk)  #Починає пошук при натисканні клавіши Ентер
         self.listWidget.installEventFilter(self)
         # self.listWidget.setSelectionMode(QListWidget.MultiSelection)
         # self.tableView(self)
