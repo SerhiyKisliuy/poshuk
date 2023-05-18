@@ -28,7 +28,7 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listWidget.installEventFilter(self)
         # self.listWidget.setSelectionMode(QListWidget.MultiSelection)
         # self.tableView(self)
-
+        #self.tableView.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)
         self.sett = Settings()
         self.settings = self.sett.getSettings()  # Отримуємо налаштунки програми
 
@@ -73,9 +73,10 @@ class Ui_MW(QtWidgets.QMainWindow, Ui_MainWindow):
         # print(tableData[1])
         dateTable = self.dataLengs(tableData)
         self.model = TableModel(dateTable[0])  # Створюємо обєкт - модел таблиці.
-        self.model.setHader(dateTable[1])  #
-        self.model.setItems(dateTable[0])  #
+        self.model.setHader(dateTable[1])  # Передаємо в модель шапку
+        self.model.setItems(dateTable[0])  # Передаємо в модель таблицю
         self.tableView.setModel(self.model)  # Передаємо модель таблиці у вієв.
+        self.tableView.horizontalHeader().resizeSections(QHeaderView.ResizeToContents)  #Розтягує стовбці згідно змісту
 
     def dataLengs(self, data):
         resultData = []
