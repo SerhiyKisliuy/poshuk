@@ -4,12 +4,12 @@ from PyQt5.QtCore import QSettings
 class Settings:
 
     def setSettings(self, settings):
-        savesettings = QSettings("setting.conf")
+        savesettings = QSettings("setting1.conf")
         savesettings.setValue("set", settings)
         savesettings.sync()
 
     def getSettings(self):
-        self.getsettings = QSettings("setting.conf")
+        self.getsettings = QSettings("setting1.conf")
         self.settings = self.getsettings.value("set")
         self.settings = self.testSettings(self.settings)
         return self.settings
@@ -17,7 +17,8 @@ class Settings:
     def testSettings(self, settings):
 
         if not settings:
-            settings = []
+            settings = {'radioButtonCheck': True, 'radioButton_2Check': False, 'list_item': [], 'path_dir': '/Users'}
+
         try:
             settings['radioButtonCheck']
         except Exception:
